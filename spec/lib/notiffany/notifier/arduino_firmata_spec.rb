@@ -87,6 +87,7 @@ module Notiffany
           subject.notify 'message', type: :failed
         end
       end
+
       context "on pending" do
         let(:yellow) { subject.options.fetch :yellow }
         it "turns yellow LED on" do
@@ -94,6 +95,7 @@ module Notiffany
           subject.notify 'message', type: :pending
         end
       end
+
       context "on success" do
         let(:green) { subject.options.fetch :green }
         it "turns green LED on" do
@@ -101,6 +103,7 @@ module Notiffany
           subject.notify 'message', type: :success
         end
       end
+
       context "on notify" do
         it "does not turn on any led" do
           expect(arduino).not_to receive(:digital_write).with(instance_of(Fixnum), true)
@@ -109,21 +112,21 @@ module Notiffany
       end
     end
 
-    shared_examples_for "turns off all the LEDS" do
+    shared_examples_for "turns off all the LEDS" do |method|
       it "turns off all the LEDS" do
         subject.options.values_at(:red, :yellow, :green).each do |pin|
           expect(arduino).to receive(:digital_write).with(pin, false)
         end
-        subject.turn_off
+        subject.send method
       end
     end
 
     describe "#turn_on" do
-      it_behaves_like "turns off all the LEDS"
+      it_behaves_like "turns off all the LEDS", :turn_on
     end
 
     describe "#turn_off" do
-      it_behaves_like "turns off all the LEDS"
+      it_behaves_like "turns off all the LEDS", :turn_off
     end
 
   end
