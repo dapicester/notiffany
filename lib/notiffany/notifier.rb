@@ -18,6 +18,7 @@ module Notiffany
   # * Terminal Notifier
   # * Terminal Title
   # * Tmux
+  # * Arduino (using Firmata)
   #
   # Please see the documentation of each notifier for more information about
   # the requirements
@@ -65,7 +66,8 @@ module Notiffany
       { emacs: Emacs },
       { tmux: Tmux },
       { terminal_title: TerminalTitle },
-      { file: File }
+      { file: File },
+      { arduino_firmata: ArduinoFirmata }
     ]
 
     Env = Nenv::Builder.build do
